@@ -35,22 +35,30 @@ export const getConnection = (connectionPool: Function) => {
     });
 };
 
-// T extends RowDataPacket[][] | RowDataPacket[] | OkPacket | OkPacket[] | ResultSetHeader
-
 export interface ResultDataPacket extends RowDataPacket {}
+export interface ResultFieldPacket extends FieldPacket {}
 
 export const getQuery = async <U extends RowDataPacket[]>(
     query: string,
     ...args: any | any[]
 ) =>
     pool.getConnection().then(
-        (connect: PoolConnection): Promise<U | FieldPacket[]> =>
-            connect
-                .query<U>(query, args)
-                .then(([rows]: [U, FieldPacket[]]): U => rows)
-                .catch((e: FieldPacket[]) => {
-                    console.error('SQL]', e);
-                    return e;
-                })
-                .finally(() => connect.release())
+        (connect: PoolConnection): Promise<U> =>
+            new Promise<U>(
+                (
+                    resolve: (value: U | PromiseLike<U>) => void,
+                    reject: (reason?: any) => void
+                ) => {
+                    connect
+                        .query<U>(query, args)
+                        .then(([rows]: [U, FieldPacket[]]): void =>
+                            resolve(rows)
+                        )
+                        .catch((e: FieldPacket[]) => {
+                            console.error('SQL]', e);
+                            return reject(e);
+                        })
+                        .finally(() => connect.release());
+                }
+            )
     );
