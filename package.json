@@ -1,8 +1,8 @@
 {
-    "name": "promise_back",
+    "name": "discord_live_api",
     "version": "1.0.0",
-    "description": "약속앱 api",
-    "repository": "https://github.com/promise-app-team/promise-back",
+    "description": "방송알리미 api",
+    "repository": "https://github.com/patrickmonster/discord_live_api",
     "author": "Soung jin Ryu <neocat@kakao.com>",
     "main": "dest/index.js",
     "dependencies": {
