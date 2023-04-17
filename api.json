@@ -9,10 +9,6 @@
     {
       "url": "http://localhost:3000",
       "description": "local api test"
-    },
-    {
-      "url": "https://warm-scrubland-63377.herokuapp.com/",
-      "description": "dev api test"
     }
   ],
   "paths": {
