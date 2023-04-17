@@ -61,6 +61,7 @@
         "start": "node dist/src/app.js",
         "test": "jest",
         "build": "npm i -g tsc-alias tsc && tsc --project tsconfig.json && tsc-alias -p tsconfig.json",
+        "swagger": "ts-node ./src/apiDocMaker.ts",
         "dev": "nodemon --watch src/ --exec ts-node -r tsconfig-paths/register ./src/app.ts"
     },
     "license": "MIT"
