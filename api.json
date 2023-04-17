@@ -1,8 +1,8 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "promise_back",
-    "description": "약속앱 api",
+    "title": "discord_live_api",
+    "description": "방송알리미 api",
     "version": "1.0.0"
   },
   "servers": [
