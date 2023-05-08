@@ -3,16 +3,35 @@
  * 타입형을 지정하는 파일
  */
 
-/*
-    #swagger.deprecated = true
-    #swagger.types[Token] = {
-        user_id : <string>,
-
-    }
- */
-export type Token = {
-    user_id: string;
-    type: string;
-    token: string;
-    expire_date: string;
+export default {
+    'access-token': {
+        type: 'object',
+        properties: {
+            id: {
+                type: 'string',
+                format: 'string',
+                description: 'user id',
+            },
+            token: {
+                type: 'string',
+                format: 'string',
+                description: 'user access token',
+            },
+        },
+    },
+    'access-user': {
+        type: 'object',
+        properties: {
+            id: {
+                type: 'string',
+                format: 'string',
+                description: 'user id',
+            },
+            provider: {
+                type: 'string',
+                format: 'string',
+                description: 'user OAuth provider type',
+            },
+        },
+    },
 };

@@ -19,9 +19,8 @@
           "@home/*": ["*"],
           "@src/*": ["src/*"],
           "@controller/*": ["src/controller/*"],
-          "@middlewars/*": ["src/middlewar/*"],
-          "@js/*": ["src/javascript/*"],
-          "@util/*": ["src/javascript/util/*"]
+          "@middleware/*": ["src/middleware/*"],
+          "@util/*": ["src/util/*"]
       }
     },
     "exclude": [],

@@ -1,13 +1,18 @@
 {
-    "name": "discord_live_api",
+    "name": "promise_back",
     "version": "1.0.0",
-    "description": "방송알리미 api",
-    "repository": "https://github.com/patrickmonster/discord_live_api",
+    "description": "약속앱 api",
+    "repository": "https://github.com/promise-app-team/promise-back",
     "author": "Soung jin Ryu <neocat@kakao.com>",
     "main": "dest/index.js",
     "dependencies": {
         "@types/http-errors": "^2.0.1",
+        "@types/jsonwebtoken": "^9.0.2",
         "@types/morgan": "^1.9.4",
+        "@types/passport": "^1.0.12",
+        "@types/passport-discord": "^0.1.6",
+        "@types/passport-jwt": "^3.0.8",
+        "@types/redis": "^4.0.11",
         "@types/swagger-ui-express": "^4.1.3",
         "@types/yamljs": "^0.2.31",
         "acorn": "^8.8.2",
@@ -19,12 +24,18 @@
         "googleapis": "^112.0.0",
         "http-errors": "^2.0.0",
         "jest": "^29.5.0",
+        "jsonwebtoken": "^9.0.0",
         "make-error": "^1.3.6",
         "morgan": "^1.10.0",
+        "passport": "^0.6.0",
+        "passport-discord": "^0.1.4",
+        "passport-jwt": "^4.0.1",
+        "redis": "^4.6.6",
         "swagger-autogen": "^2.23.1",
         "swagger-cli": "^4.0.4",
         "swagger-ui-express": "^4.6.2",
         "ts-node": "^10.9.1",
+        "tsc-alias": "^1.8.6",
         "typescript": "^4.9.5",
         "v8-compile-cache-lib": "^3.0.1",
         "yamljs": "^0.3.0"
@@ -37,6 +48,7 @@
         "@types/express": "^4.17.17",
         "@types/node": "^18.14.1",
         "babel-jest": "^29.5.0",
+        "cross-env": "^7.0.3",
         "express": "^4.18.2",
         "link-module-alias": "^1.2.0",
         "nodemon": "^2.0.20",
@@ -58,11 +70,10 @@
         ]
     },
     "scripts": {
-        "start": "node dist/src/app.js",
+        "start": "cross-env NODE_ENV=production node dist/src/app.js",
         "test": "jest",
         "build": "npm i -g tsc-alias tsc && tsc --project tsconfig.json && tsc-alias -p tsconfig.json",
-        "swagger": "ts-node ./src/apiDocMaker.ts",
-        "dev": "nodemon --watch src/ --exec ts-node -r tsconfig-paths/register ./src/app.ts"
+        "dev": "cross-env NODE_ENV=development nodemon --watch src/ --exec ts-node -r tsconfig-paths/register ./src/app.ts"
     },
     "license": "MIT"
 }

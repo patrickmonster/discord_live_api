@@ -1,20 +1,17 @@
 import { Router, Request, Response } from 'express';
 
-import kako from './kako';
+import discord from './discord';
 
 const router: Router = Router();
 
 /**
  * API 매인 라우팅 지정
  */
-
 router.use(
-    `/kakao`,
-    kako
+    `/discord`,
+    discord
     /* 
-    #swagger.security = [{
-        "apiKeyAuth": []
-    }]
+    #swagger.ignore = false
     */
 );
 

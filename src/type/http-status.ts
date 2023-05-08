@@ -8,7 +8,15 @@ export type responseType = {
 
 export default {
     status404: {
-        status: 404,
-        message: 'Not Found',
+        type: 'object',
+        properties: {
+            status: {
+                type: 'number',
+                format: 'int32',
+            },
+            message: {
+                type: 'string',
+            },
+        },
     },
 };

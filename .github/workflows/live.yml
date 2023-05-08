@@ -1,0 +1,37 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+# 운영 ci 
+name: operate CI
+
+on:
+  pull_request_review:
+    types: [submitted]
+
+jobs:
+  pr-approved-build:
+    if: github.event.review.state == 'approved'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Use Node.js 18.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: '18'
+      - name: Install global dependencies
+        run: |
+          yarn global add ts-node tsc-alias
+      - name: Install dependencies
+        run: yarn install
+      - name: Run tests
+        run: yarn test
+      - name: Build
+        run: yarn build
+      - name: Release app on Heroku
+        uses: akhileshns/heroku-deploy@v3.1.6 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "discord-live-api" #Must be unique in Heroku
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
+          # action: 'dev'
