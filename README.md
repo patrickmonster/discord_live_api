@@ -1,5 +1,5 @@
-# promise-back
-promise backend repository
+# Discord live api
+discord live api repository
 
 
 Swaggerc 참조 : https://llshl.tistory.com/49
