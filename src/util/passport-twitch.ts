@@ -82,8 +82,13 @@ export default class TwitchStrategy extends OAuth2Strategy.Strategy {
                     const profile: Profile = {
                         provider: _this.name,
                         id: json.id,
+                        login: json.login,
                         username: json.name,
                         displayName: json.display_name,
+                        broadcasterType: json.broadcaster_type,
+                        profileImageUrl: json.profile_image_url,
+                        offlineImageUrl: json.offline_image_url,
+                        createdAt: json.created_at,
                         email: json.email,
                         _raw: body,
                         _json: json,
@@ -102,8 +107,13 @@ export default class TwitchStrategy extends OAuth2Strategy.Strategy {
 export interface Profile extends passport.Profile {
     provider: string;
     id: string;
+    login: string;
     username: string;
     displayName: string;
+    broadcasterType: 'affiliate' | 'partner' | '';
+    profileImageUrl: string;
+    offlineImageUrl: string;
+    createdAt: Date;
     email: string;
     _raw: string | Buffer | undefined;
     _json: object;

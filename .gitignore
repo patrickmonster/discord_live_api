@@ -103,3 +103,6 @@ dist
 .tern-port
 
 .secrets
+
+# api.json
+api.json
