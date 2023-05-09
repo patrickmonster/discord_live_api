@@ -21,10 +21,6 @@ router.use((req: Request, res: Response, next: NextFunction) => {
     next();
 });
 
-router.get('/', (req: Request, res: Response, next: NextFunction) => {
-    res.send('?');
-});
-
 router.use('/success', (req: Request, res: Response, next: NextFunction) => {
     if (cookiNames.redirect in req.signedCookies) {
         const nextUrl = req.signedCookies[cookiNames.redirect];
