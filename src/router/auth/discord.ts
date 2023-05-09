@@ -7,8 +7,6 @@ import discord, { invite } from '@middleware/auth/discord';
 
 import { cookiNames, cookieOption } from '@util/jwt-create';
 
-const tokenName = 'orefinger.token';
-
 /**
  * 로그인 성공 처리
  * @param req { Request }
@@ -16,9 +14,8 @@ const tokenName = 'orefinger.token';
  */
 const next = (req: Request, res: Response) => {
     // 토큰 삽입(클라이언트 측)
-
     res.cookie(cookiNames.token, req.user, cookieOption).send(`
-<script type="text/javascript" >
+<script>
 window.localStorage.setItem('orefinger.token', '${req.user}');
 window.location.replace('/auth/success');
 </script>

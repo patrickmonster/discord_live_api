@@ -5,6 +5,7 @@ import OAuth2Strategy, { InternalOAuthError } from 'passport-oauth2';
 
 interface TwitchStrategyOptions
     extends Partial<OAuth2Strategy.StrategyOptions> {
+    name: 'twitch' | 'twitch.stream';
     clientID: string;
     clientSecret: string;
     authorizationURL?: string;
@@ -52,6 +53,7 @@ export default class TwitchStrategy extends OAuth2Strategy.Strategy {
             opts.tokenURL,
             opts.customHeaders
         );
+        this.name = options.name;
     }
 
     userProfile(

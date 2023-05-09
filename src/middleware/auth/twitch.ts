@@ -31,6 +31,7 @@ passport.use(
     new TwitchStrategy(
         {
             ...twitch_options,
+            name: 'twitch.stream',
             scope: [
                 'moderator:manage:announcements', // 공지 메세지
                 'channel:read:subscriptions', // 구독자 목록
@@ -46,6 +47,7 @@ passport.use(
     new TwitchStrategy(
         {
             ...twitch_options,
+            name: 'twitch',
             scope: ['channel:read:subscriptions', 'user:read:email'],
         },
         default_token

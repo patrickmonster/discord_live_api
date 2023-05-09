@@ -1,6 +1,5 @@
 'use strict';
 import mysql, { Pool, PoolConnection } from 'mysql2/promise';
-
 import { env } from 'process';
 interface QueryFunction {
     (query: string, ...params: any[]): Promise<any[]>;
@@ -16,6 +15,14 @@ const pool: Pool = mysql.createPool({
 
 pool.on('connection', () => console.log('DB] 연결됨'));
 
+const sqlLogger = (query: string, params: any[], rows: any[] | any) => {
+    // if (env.sql_log != 'true') return rows;
+    console.log('=======================================================');
+    console.log('SQL] ', mysql.format(query, params), rows);
+    console.log('=======================================================');
+    return rows;
+};
+
 const getConnection = async (
     connectionPool: (queryFunction: QueryFunction) => Promise<any>
 ): Promise<any> => {
@@ -24,7 +31,9 @@ const getConnection = async (
         connect = await pool.getConnection();
         return await connectionPool(
             (query: string, ...params: any[]): Promise<any> =>
-                connect!.query(query, params).then(([rows]) => rows)
+                connect!
+                    .query(query, params)
+                    .then(([rows]) => sqlLogger(query, params, rows))
         );
     } catch (e) {
         console.error('SQL]', e);
@@ -35,5 +44,5 @@ const getConnection = async (
 
 export default getConnection;
 
-getConnection.QUERY = async (query: string, ...params: any[]): Promise<any> =>
+export const QUERY = async (query: string, ...params: any[]): Promise<any> =>
     await getConnection(c => c(query, ...params));
