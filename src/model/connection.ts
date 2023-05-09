@@ -14,6 +14,8 @@ const pool: Pool = mysql.createPool({
     connectionLimit: 2, // 연결 개수 제한
 });
 
+pool.on('connection', () => console.log('DB] 연결됨'));
+
 const getConnection = async (
     connectionPool: (queryFunction: QueryFunction) => Promise<any>
 ): Promise<any> => {

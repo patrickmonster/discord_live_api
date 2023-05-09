@@ -15,7 +15,7 @@ config({
 });
 
 // 데이터 베이스 연결
-import '@home/src/model/connection';
+import '@model/connection';
 
 // api document options
 import options from '@home/src/type/api-document-type';
