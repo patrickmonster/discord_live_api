@@ -2,19 +2,32 @@
 import { Request, Response, NextFunction } from 'express';
 import passport from 'passport';
 
-import { key as secretOrKey } from '@util/jwt-create';
+import { key as secretOrKey, Token } from '@util/jwt-create';
 import createError from 'http-errors';
 
-import { ExtractJwt, Strategy as JwtStrategy } from 'passport-jwt';
+import {
+    ExtractJwt,
+    Strategy as JwtStrategy,
+    VerifyCallback,
+} from 'passport-jwt';
 
-import redis from '@src/model/redis';
 import { host } from '@util/env';
 
 const fromAuthHeaderAsBearerToken = ExtractJwt.fromAuthHeaderAsBearerToken();
 
 const { env } = process;
 
+// Express.User
+
+async function strategy(
+    jwt_payload: Token,
+    done: (error: any, user?: Express.User | false, info?: any) => void
+) {
+    done(null, jwt_payload);
+}
+
 passport.use(
+    'jwt',
     new JwtStrategy(
         {
             // 헤더 삽입
@@ -23,24 +36,36 @@ passport.use(
             secretOrKey,
             issuer: host.split('//')[1],
         },
-        async (jwt_payload, done) => {
-            const { id } = jwt_payload;
-            const user = JSON.parse((await redis.get(id)) || '{}');
-            done(null, user);
-        }
+        strategy
     )
 );
 
-export default function (req: Request, res: Response, next: NextFunction) {
-    return passport.authenticate(
-        'jwt',
-        { session: false },
-        (error: any, user: Express.User) => {
-            if (user) {
-                req.user = user;
-                next();
-            } else
-                next(createError(401, 'Your token has expired or is missing.'));
-        }
-    )(req, res, next);
+export default function (
+    fallToLogin?: (req: Request, res: Response, next: NextFunction) => void
+) {
+    return (req: Request, res: Response, next: NextFunction) => {
+        return passport.authenticate(
+            'jwt',
+            { session: false },
+            (error: any, user: Express.User) => {
+                console.log('JWT]', error, user);
+
+                if (user) {
+                    req.user = user;
+                    next();
+                } else {
+                    if (fallToLogin) {
+                        fallToLogin(req, res, next);
+                    } else {
+                        next(
+                            createError(
+                                401,
+                                'Your token has expired or is missing.'
+                            )
+                        );
+                    }
+                }
+            }
+        )(req, res, next);
+    };
 }

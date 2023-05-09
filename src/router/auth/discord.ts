@@ -5,32 +5,30 @@ const router: Router = Router();
 
 import discord, { invite } from '@middleware/auth/discord';
 
+import { cookiNames, cookieOption } from '@util/jwt-create';
+
+const tokenName = 'orefinger.token';
+
+/**
+ * 로그인 성공 처리
+ * @param req { Request }
+ * @param res { Response }
+ */
+const next = (req: Request, res: Response) => {
+    // 토큰 삽입(클라이언트 측)
+
+    res.cookie(cookiNames.token, req.user, cookieOption).send(`
+<script type="text/javascript" >
+window.localStorage.setItem('orefinger.token', '${req.user}');
+window.location.replace('/auth/success');
+</script>
+   `);
+};
+
 // http://localhost:3100/auth/discord
-router.get('/', discord, (req, res) => {
-    /*  #swagger.tags = ['auth']
-        #swagger.summary = 'Passport for discord'
-        #swagger.description = 'Discord 인증 Auth 입니다.'
-        #swagger.produces = ['application/json']
-        #swagger.responses[200] = {
-            description: '디스코드 로그인 성공',
-            schema: { $ref : '#/definitions/access-token' }
-        }
-    */
-    res.json(req.user);
-});
+router.get('/', discord, next);
 
 // http://localhost:3100/auth/discord/invite
-router.get('/invite', invite, (req, res) => {
-    /*  #swagger.tags = ['auth']
-        #swagger.summary = 'Passport for discord'
-        #swagger.description = 'Discord 인증 Auth 입니다.'
-        #swagger.produces = ['application/json']
-        #swagger.responses[200] = {
-            description: '디스코드 로그인 성공',
-            schema: { $ref : '#/definitions/access-token' }
-        }
-    */
-    res.json(req.user);
-});
+router.get('/invite', invite, next);
 
 export default router;

@@ -7,21 +7,29 @@ import { host } from '@util/env';
 
 export type Token = {
     id: string;
+    nickname: string;
     type: string;
     accessToken?: string;
     refreshToken?: string;
 };
 
-export const key = 'R7RV1Gwgvt1Q4fpQJ8QpVoKieKbR5s';
+export const key = process.env.KEY;
+
+export const cookiNames = {
+    token: 'orefinger.token',
+    redirect: 'orefinger.redirect',
+};
+
+export const cookieOption = { httpOnly: true, secure: true, signed: true };
 
 // 키 발급
 export default function (data: Token) {
     const token = jwt.sign(
         {
             ...data,
-            issuer: host.split('//')[1],
+            iss: host.split('//')[1], // 발급자
         },
-        key
+        key || ''
     );
     console.log('JWT] 신규생성 -', token);
     return token.split('.').slice(1).join('.');

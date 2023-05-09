@@ -5,7 +5,6 @@ import * as oauth2 from 'passport-oauth2';
 import { Strategy as discordStrategy } from 'passport-discord';
 
 import jwt from '@util/jwt-create';
-import redis from '@src/model/redis';
 
 import { host } from '@util/env';
 
@@ -17,31 +16,24 @@ const discord_options = {
     callbackURL: host + '/auth/discord',
 };
 
-console.log('discord', discord_options);
-
 const default_token = async (
     accessToken: string,
     refreshToken: string,
     profile: discordStrategy.Profile,
     done: oauth2.VerifyCallback
 ) => {
-    const { id, provider } = profile;
+    const { id, provider, displayName } = profile;
 
     // 사용자 정보를 레디스 / DB를 통하여 생성 및 저장
     const token = jwt({
         id,
+        nickname: displayName,
         type: provider,
         accessToken,
         refreshToken,
     });
 
-    try {
-        await redis.set(id, JSON.stringify(profile));
-        done(null, { id, token });
-    } catch (e) {
-        if (e instanceof Error) done(e, false);
-        else done(new Error('Connection fall'), false);
-    }
+    done(null, token);
 };
 
 passport.use(
@@ -77,6 +69,7 @@ export default function (req: Request, res: Response, next: NextFunction) {
     //
     return passport.authenticate('discord', {
         session: false,
+        state: 'discord',
     })(req, res, next);
 }
 
@@ -84,5 +77,6 @@ export const invite = (req: Request, res: Response, next: NextFunction) => {
     //
     return passport.authenticate('discord-invite', {
         session: false,
+        state: 'discord-invite',
     })(req, res, next);
 };
