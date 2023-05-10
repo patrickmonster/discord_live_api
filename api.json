@@ -12,14 +12,55 @@
     }
   ],
   "paths": {
-    "/api/v1/user/": {
+    "/api/v1/token/": {
       "get": {
         "tags": [
           "auth"
         ],
-        "summary": "User profile",
+        "summary": "User token",
         "description": "현재 로그인된 사용자의 정보를 확인합니다.",
         "parameters": [],
+        "responses": {
+          "200": {
+            "description": "사용자 정보 조회",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/access-user"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/access-user"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/event/{type}": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "User token",
+        "description": "현재 로그인된 사용자의 정보를 확인합니다.",
+        "parameters": [
+          {
+            "name": "type",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "사용자 정보 조회",

@@ -5,13 +5,21 @@ import { host } from '@util/env';
 
 // jwt발급 관련 유틸 - 생성 및 비밀키
 
-export type Token = {
+export interface Token {
     id: string;
     nickname: string;
     type: string;
-    accessToken?: string;
     refreshToken?: string;
-};
+}
+
+declare global {
+    namespace Express {
+        // tslint:disable-next-line:no-empty-interface
+        interface AuthInfo {}
+        // tslint:disable-next-line:no-empty-interface
+        interface User extends Token {}
+    }
+}
 
 export const key = process.env.KEY;
 
