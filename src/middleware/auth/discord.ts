@@ -4,9 +4,9 @@ import passport from 'passport';
 import * as oauth2 from 'passport-oauth2';
 import { Strategy as discordStrategy } from 'passport-discord';
 
-import jwt from '@util/jwt-create';
-
 import { host } from '@util/env';
+
+import { loginDiscord } from '@home/src/controller/user-oauth';
 
 const { env } = process;
 
@@ -22,18 +22,13 @@ const default_token = async (
     profile: discordStrategy.Profile,
     done: oauth2.VerifyCallback
 ) => {
-    const { id, provider, displayName } = profile;
-
-    // 사용자 정보를 레디스 / DB를 통하여 생성 및 저장
-    const token = jwt({
-        id,
-        nickname: displayName,
-        type: provider,
-        accessToken,
-        refreshToken,
-    });
-
-    done(null, token);
+    loginDiscord(profile, refreshToken)
+        .then(token => done(null, token))
+        .catch(e => done(e));
+    // TODO:redis를 통한 토큰 관리
+    // redis.set(profile.id, accessToken, {
+    //     EX: 60 * 60 * 24 * 30,
+    // });
 };
 
 passport.use(

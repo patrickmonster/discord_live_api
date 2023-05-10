@@ -20,6 +20,7 @@
           "@src/*": ["src/*"],
           "@controller/*": ["src/controller/*"],
           "@middleware/*": ["src/middleware/*"],
+          "@model/*": ["src/model/*"],
           "@util/*": ["src/util/*"]
       }
     },

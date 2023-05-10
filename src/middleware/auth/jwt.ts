@@ -23,6 +23,8 @@ async function strategy(
     jwt_payload: Token,
     done: (error: any, user?: Express.User | false, info?: any) => void
 ) {
+    console.log('PASSPORT]', jwt_payload);
+
     done(null, jwt_payload);
 }
 
@@ -44,13 +46,26 @@ export default function (
     fallToLogin?: (req: Request, res: Response, next: NextFunction) => void
 ) {
     return (req: Request, res: Response, next: NextFunction) => {
+        console.log('TOKEN] ', req.headers.authorization);
+
         return passport.authenticate(
             'jwt',
             { session: false },
-            (error: any, user: Express.User) => {
-                console.log('JWT]', error, user);
+            (error: any, user: Express.User, e: any) => {
+                console.log('JWT]', error, user, e);
 
-                if (user) {
+                if (e) {
+                    if (fallToLogin) {
+                        fallToLogin(req, res, next);
+                    } else {
+                        next(
+                            createError(
+                                401,
+                                'Your token has expired or is missing.'
+                            )
+                        );
+                    }
+                } else if (user) {
                     req.user = user;
                     next();
                 } else {

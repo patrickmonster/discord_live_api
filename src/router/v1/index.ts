@@ -1,12 +1,13 @@
 import { Router, Request, Response, NextFunction } from 'express';
 
-import user from './user';
+import token from './token';
+import event from './event';
 
 const router: Router = Router();
-import jwt from '@middleware/auth/jwt';
 
 //////////////////////////////////////////////////////
-router.use(`/user`, user);
+router.use(`/token`, token);
+router.use(`/event`, event);
 
 //////////////////////////////////////////////////////
 
