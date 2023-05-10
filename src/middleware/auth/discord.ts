@@ -42,11 +42,15 @@ passport.use(
     )
 );
 
+// https://discord.com/oauth2/authorize?response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3100%2Fauth%2Fdiscord&scope=identify%20email%20bot%20applications.commands%20guilds%20guilds.members.read&state=discord-invite%26permissions%3D249768893497&client_id=826484552029175808
 passport.use(
     'discord-invite',
     new discordStrategy(
         {
             ...discord_options,
+            authorizationURL:
+                'https://discord.com/api/oauth2/authorize?permissions=249768893497',
+            state: 'discord-invite',
             scope: [
                 'identify',
                 'email',
@@ -73,5 +77,6 @@ export const invite = (req: Request, res: Response, next: NextFunction) => {
     return passport.authenticate('discord-invite', {
         session: false,
         state: 'discord-invite',
+        prompt: 'test',
     })(req, res, next);
 };

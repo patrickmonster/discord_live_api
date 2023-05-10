@@ -35,6 +35,12 @@ export const loginDiscord = async (
     );
 };
 
+/**
+ * 트위치 로그인
+ * @param profile
+ * @param refreshToken
+ * @returns
+ */
 export const loginTwitch = async (
     profile: TwitchProfile,
     refreshToken: string
@@ -113,5 +119,24 @@ and ac.auth_id = ?
     `,
         types,
         auth_id
+    );
+};
+
+/**
+ * 사용자 정보 조회
+ * @param auth_id
+ * @param types
+ * @returns
+ */
+export const inviteUser = async (
+    guildId: string,
+    auth_id: string,
+    permissions: number | string
+) => {
+    return QUERY(
+        `INSERT INTO discord.guild_invite (guild_id, owner_id, permission) VALUES(?, ?, ?)`,
+        guildId,
+        auth_id,
+        permissions
     );
 };
