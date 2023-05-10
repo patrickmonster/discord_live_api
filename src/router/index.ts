@@ -1,15 +1,27 @@
 'use strict';
-import { Router, Request, Response } from 'express';
+import { Router } from 'express';
 
 import jwt from '@middleware/auth/jwt';
+
+import cookieParser from 'cookie-parser';
+
+import twitch from './twitch';
 
 import auth from './auth';
 import apiV1 from './v1';
 
-import cookieParser from 'cookie-parser';
-import { cookieOption, cookiNames } from '@util/jwt-create';
-
 const router: Router = Router();
+
+/**
+ * 이벤트 라우터
+ */
+router.use(
+    `/twitch`,
+    twitch
+    /* 
+    #swagger.ignore = true
+    */
+);
 
 /**
  * API 매인 라우팅 지정

@@ -12,6 +12,7 @@ import { cookieOption, cookiNames } from '@util/jwt-create';
 
 router.use(cookieParser(process.env.KEY));
 
+// 중복 작업 처리용 미들웨어
 router.use((req: Request, res: Response, next: NextFunction) => {
     if (cookiNames.token in req.signedCookies) {
         req.headers.authorization = `Bearer ${
@@ -27,12 +28,12 @@ router.use('/success', (req: Request, res: Response, next: NextFunction) => {
         res.clearCookie(cookiNames.redirect).redirect(nextUrl);
         console.log('AUTH] success ', nextUrl);
     } else {
-        res.send(`
-<script type="text/javascript >
-alert('로그인 성공! 매인화면으로 이동합니다...');
-localtion.replace('/');
-</script>
-       `);
+        res.send(`<script>
+window.addEventListener('load', () => {
+    alert('로그인 성공! 매인화면으로 이동합니다...');
+    window.location.replace('/')
+});
+</script>`);
     }
 });
 
@@ -55,10 +56,7 @@ router.use(
 
 router.use(
     `/twitch`,
-    jwt((req: Request, res: Response, next: NextFunction) => {
-        // 요청에 토큰이 없는 경우
-        console.log('req.signedCookies', req.signedCookies);
-
+    jwt((req: Request, res: Response) => {
         res.redirect(`/auth/discord?redirect=${req.baseUrl}`);
     }),
     twitch
