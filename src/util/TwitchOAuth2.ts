@@ -2,6 +2,8 @@
 import { OAuth2, dataCallback } from 'oauth';
 import redis from '@model/redis';
 
+import ConvertBody from '@util/ConvertBody';
+
 class TwitchOAuth2 extends OAuth2 {
     protected _scope: string[];
     constructor(id: string, secret: string, ...scope: string[]) {
@@ -27,7 +29,7 @@ class TwitchOAuth2 extends OAuth2 {
             },
             '',
             access_token,
-            callback
+            (err, body, r) => callback(err, ConvertBody(body), r)
         );
     }
 
@@ -41,7 +43,7 @@ class TwitchOAuth2 extends OAuth2 {
             },
             body,
             access_token,
-            callback
+            (err, body, r) => callback(err, ConvertBody(body), r)
         );
     }
 

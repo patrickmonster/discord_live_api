@@ -6,8 +6,6 @@ import { Strategy as discordStrategy } from 'passport-discord';
 
 import { host } from '@util/env';
 
-import redis from '@model/redis';
-
 import { loginDiscord } from '@home/src/controller/user-oauth';
 
 const { env } = process;

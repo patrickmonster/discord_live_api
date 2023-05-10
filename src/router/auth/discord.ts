@@ -14,6 +14,8 @@ import { cookiNames, cookieOption } from '@util/jwt-create';
  */
 const next = (req: Request, res: Response) => {
     // 토큰 삽입(클라이언트 측)
+    console.log('LOGIN]', req.user);
+
     res.cookie(cookiNames.token, req.user, cookieOption).send(`
 <script>
 window.localStorage.setItem('orefinger.token', '${req.user}');

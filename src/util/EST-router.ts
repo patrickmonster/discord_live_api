@@ -228,13 +228,6 @@ export interface Subscription {
     created_at: string;
 }
 
-const convertBody = (body: any): any => {
-    if (Buffer.isBuffer(body)) body = JSON.parse(body.toString());
-    else if (typeof body === 'string')
-        body = JSON.parse(decodeURIComponent(body));
-    return body;
-};
-
 export type SubscriptionType =
     | 'channel.update'
     | 'channel.follow'
