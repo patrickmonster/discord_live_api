@@ -33,7 +33,7 @@ router.use(
 /**
  * PING
  */
-router.get(`/`, (req, res) => {
+router.post(`/`, async (req, res) => {
     /*  #swagger.tags = ['interaction']
         #swagger.summary = 'Discord app'
         #swagger.description = '앱 동작 코드 입니다.'
