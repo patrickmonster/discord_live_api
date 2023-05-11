@@ -25,6 +25,11 @@ router.use(
 );
 
 /**
+ * 명령 처리 라우터
+ */
+router.use(`/interaction`, interaction);
+
+/**
  * API 매인 라우팅 지정
  */
 router.use(
@@ -47,10 +52,5 @@ router.use(
         }]
     */
 );
-
-/**
- * 이벤트 라우터
- */
-router.use(`/interaction`, interaction);
 
 export default router;
