@@ -4,8 +4,9 @@
 name: main server
 
 on:
-  pull_request_review:
-    types: [submitted]
+  pull_request:
+    types: [closed]
+    branches: ["master"]
 
 jobs:
   pr-approved-build:
