@@ -5,19 +5,13 @@ import passport from 'passport';
 import { key as secretOrKey, Token } from '@util/jwt-create';
 import createError from 'http-errors';
 
-import {
-    ExtractJwt,
-    Strategy as JwtStrategy,
-    VerifyCallback,
-} from 'passport-jwt';
+import { ExtractJwt, Strategy as JwtStrategy } from 'passport-jwt';
 
 import { host } from '@util/env';
-
-const fromAuthHeaderAsBearerToken = ExtractJwt.fromAuthHeaderAsBearerToken();
-
 const { env } = process;
 
-// Express.User
+export const jwtFromRequest = (req: Request) =>
+    `${env.JWT_HEADER}.${ExtractJwt.fromAuthHeaderAsBearerToken()(req)}`;
 
 async function strategy(
     jwt_payload: Token,
@@ -33,8 +27,7 @@ passport.use(
     new JwtStrategy(
         {
             // 헤더 삽입
-            jwtFromRequest: (req: Request) =>
-                `${env.JWT_HEADER}.${fromAuthHeaderAsBearerToken(req)}`,
+            jwtFromRequest,
             secretOrKey,
             issuer: host.split('//')[1],
         },
