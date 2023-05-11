@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser';
 
 import twitch from './twitch';
 
+import interaction from './interaction';
 import auth from './auth';
 import apiV1 from './v1';
 
@@ -46,5 +47,10 @@ router.use(
         }]
     */
 );
+
+/**
+ * 이벤트 라우터
+ */
+router.use(`/interaction`, interaction);
 
 export default router;
