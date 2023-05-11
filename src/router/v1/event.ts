@@ -13,7 +13,7 @@ router.get('/user/:idx', async (req, res, next) => {
         #swagger.description = '로그인된 사용자의 구독중인 이벤트 리스트를 불러옵니다.'
         #swagger.produces = ['application/json']
         #swagger.responses[200] = {
-            description: '사용자 정보 조회',
+            description: '구독이벤트 리스트 조회',
             schema: { $ref : '#/definitions/access-user' }
         }
      */
