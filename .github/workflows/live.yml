@@ -10,7 +10,6 @@ on:
 
 jobs:
   pr-approved-build:
-    if: github.event.review.state == 'approved'
     runs-on: ubuntu-latest
 
     steps:
