@@ -21,7 +21,7 @@ jobs:
           node-version: '18'
       - name: Install global dependencies
         run: |
-          yarn global add ts-node tsc-alias
+          yarn global add ts-node tsc-alias cross-env
       - name: Install dependencies
         run: yarn install
       - name: Run tests
