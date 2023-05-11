@@ -7,7 +7,19 @@ import { twitchOAuth2 } from '@util/EST-token';
 
 const router: Router = Router();
 
-const getEvent = (req: Request, res: Response) => {
+router.get('/user/:idx', async (req, res, next) => {
+    /*  #swagger.tags = ['Eventsub']
+        #swagger.summary = 'User event list'
+        #swagger.description = '로그인된 사용자의 구독중인 이벤트 리스트를 불러옵니다.'
+        #swagger.produces = ['application/json']
+        #swagger.responses[200] = {
+            description: '사용자 정보 조회',
+            schema: { $ref : '#/definitions/access-user' }
+        }
+     */
+
+    if (!req.user) return errorRouting(req, res, next);
+
     const { user } = req;
     console.log(user);
 
@@ -50,70 +62,6 @@ const getEvent = (req: Request, res: Response) => {
                 message: '오류발생',
             });
         });
-};
-
-/**
- * 이벤트 조회
- */
-router.get(`/`, async (req, res, next) => {
-    /*  #swagger.tags = ['auth']
-        #swagger.summary = 'User token'
-        #swagger.description = '현재 로그인된 사용자의 정보를 확인합니다.'
-        #swagger.produces = ['application/json']
-        #swagger.responses[200] = {
-            description: '사용자 정보 조회',
-            schema: { $ref : '#/definitions/access-user' }
-        }
-     */
-
-    if (!req.user) return errorRouting(req, res, next);
-
-    getEvent(req, res);
-});
-
-router.get('/user/:idx', async (req, res, next) => {
-    /*  #swagger.tags = ['auth']
-        #swagger.summary = 'User token'
-        #swagger.description = '현재 로그인된 사용자의 정보를 확인합니다.'
-        #swagger.produces = ['application/json']
-        #swagger.responses[200] = {
-            description: '사용자 정보 조회',
-            schema: { $ref : '#/definitions/access-user' }
-        }
-     */
-
-    if (!req.user) return errorRouting(req, res, next);
-
-    getEvent(req, res);
-});
-
-/**
- * 이벤트 등록
- */
-router.get(`/:type`, async (req, res) => {
-    /*  #swagger.tags = ['auth']
-        #swagger.summary = 'User token'
-        #swagger.description = '현재 로그인된 사용자의 정보를 확인합니다.'
-        #swagger.produces = ['application/json']
-        #swagger.responses[200] = {
-            description: '사용자 정보 조회',
-            schema: { $ref : '#/definitions/access-user' }
-        }
-     */
-    const { user } = req;
-
-    // twitchOAuth2.getClient(
-    //     'eventsub/subscriptions?user_id=',
-    //     {
-    //         version: '1',
-    //         transport: {
-    //             method: 'webhook',
-    //             callback: `${env.HOST}/twitch/event`,
-    //             secret: env.SECRET,
-    //         },
-    //     },
-    //     (err, body, res) => {}
-    // );
 });
 
 export default router;
