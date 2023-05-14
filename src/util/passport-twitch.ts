@@ -117,6 +117,7 @@ export interface Profile extends passport.Profile {
     offlineImageUrl: string;
     createdAt: Date;
     email: string;
+    refreshToken?: string;
     _raw: string | Buffer | undefined;
     _json: object;
 }

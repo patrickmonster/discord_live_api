@@ -1,8 +1,8 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "promise_back",
-    "description": "약속앱 api",
+    "title": "discrd_live_api",
+    "description": "방송알리미 api",
     "version": "1.0.0"
   },
   "servers": [
@@ -90,8 +90,8 @@
         "tags": [
           "interaction"
         ],
-        "summary": "Ping",
-        "description": "정상 작동 여부를 응답합니다.",
+        "summary": "Discord app",
+        "description": "앱 동작 코드 입니다.",
         "parameters": [],
         "responses": {
           "200": {

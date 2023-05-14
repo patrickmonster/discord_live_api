@@ -25,10 +25,6 @@ const default_token = async (
     loginDiscord(profile, refreshToken)
         .then(token => done(null, token))
         .catch(e => done(e));
-    // TODO:redis를 통한 토큰 관리
-    // redis.set(profile.id, accessToken, {
-    //     EX: 60 * 60 * 24 * 30,
-    // });
 };
 
 passport.use(

@@ -1,7 +1,7 @@
 {
-    "name": "promise_back",
+    "name": "discrd_live_api",
     "version": "1.0.0",
-    "description": "약속앱 api",
+    "description": "방송알리미 api",
     "repository": "https://github.com/promise-app-team/promise-back",
     "author": "Soung jin Ryu <neocat@kakao.com>",
     "main": "dest/index.js",

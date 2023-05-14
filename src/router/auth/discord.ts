@@ -4,11 +4,11 @@ import { Router, Request, Response, NextFunction } from 'express';
 const router: Router = Router();
 
 import discord, { invite } from '@middleware/auth/discord';
-import { jwtFromRequest } from '@middleware/auth/jwt';
 
 import { cookiNames, cookieOption } from '@util/jwt-create';
 
 import { inviteUser } from '@controller/user-oauth';
+import { jwtToData } from '@middleware/auth/jwt';
 import { verify } from '@util/jwt-create';
 
 /**

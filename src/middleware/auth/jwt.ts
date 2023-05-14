@@ -2,7 +2,7 @@
 import { Request, Response, NextFunction } from 'express';
 import passport from 'passport';
 
-import { key as secretOrKey, Token } from '@util/jwt-create';
+import { key as secretOrKey, Token, verify } from '@util/jwt-create';
 import createError from 'http-errors';
 
 import { ExtractJwt, Strategy as JwtStrategy } from 'passport-jwt';
@@ -12,6 +12,9 @@ const { env } = process;
 
 export const jwtFromRequest = (req: Request) =>
     `${env.JWT_HEADER}.${ExtractJwt.fromAuthHeaderAsBearerToken()(req)}`;
+
+// jwt 토큰 추출 후 복호화
+export const jwtToData = (token: string) => verify(token);
 
 async function strategy(
     jwt_payload: Token,
@@ -46,7 +49,6 @@ export default function (
             { session: false },
             (error: any, user: Express.User, e: any) => {
                 console.log('JWT]', error, user, e);
-
                 if (e) {
                     if (fallToLogin) {
                         fallToLogin(req, res, next);

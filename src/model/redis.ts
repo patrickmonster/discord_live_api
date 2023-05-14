@@ -9,4 +9,6 @@ client.connect().then(() => {
     console.log('REDIS] client connected');
 });
 
+client.on('error', console.error);
+
 export default client;

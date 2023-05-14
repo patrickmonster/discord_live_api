@@ -42,8 +42,9 @@ export const loginDiscord = async (
  * @returns
  */
 export const loginTwitch = async (
-    profile: TwitchProfile,
-    refreshToken: string
+    auth_id: string,
+    profile: TwitchProfile
+    // refreshToken: string
 ) => {
     const {
         id,
@@ -53,16 +54,17 @@ export const loginTwitch = async (
         email,
         broadcasterType,
         provider,
+        refreshToken,
     } = profile;
 
-    console.log(profile);
+    console.log('loginTwitch]', profile);
 
-    // TODO:쿼리 개선 - 비효율 적임
     return await QUERY(
-        `select func_auth_token(?, ?, ?, NULL, ?, ?, ?, ?, ?) as user_type`,
+        `select func_auth_token(?, ?, ?, ?, ?, ?, ?, ?, ?) as user_type`,
         provider,
         broadcasterType || '',
         id,
+        auth_id,
         login,
         displayName || '',
         email || '',

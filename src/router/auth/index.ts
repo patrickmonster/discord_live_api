@@ -36,6 +36,15 @@ window.addEventListener('load', () => {
 </script>`);
     }
 });
+router.use('/fail', (req: Request, res: Response, next: NextFunction) => {
+    res.send(`<script>
+window.addEventListener('load', () => {
+    alert('로그인 실패! 다시 시도해주세요...');
+    window.location.replace('/')
+});
+</script>
+    `);
+});
 
 /**
  * API 매인 라우팅 지정
