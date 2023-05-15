@@ -290,11 +290,13 @@ router.use(express.json());
 router.use(express.urlencoded({ extended: false }));
 
 router.use((req: Request, res: Response, next: NextFunction) => {
-    if (req.headers && twitchEventSub(sc, req.headers, req.body)) {
-        next();
-    } else res.status(401).send('Unauthorized request to EventSub webhook');
+    if (req.headers && twitchEventSub(sc, req.headers, req.body)) next();
+    else res.status(401).send('Unauthorized request to EventSub webhook');
 });
 
+/**
+ * Event subscription
+ */
 router.use(async (req: Request, res: Response) => {
     const { headers, body } = req;
     if (
@@ -314,7 +316,7 @@ router.use(async (req: Request, res: Response) => {
     }
     res.send(200).send('OK');
 
-    const messageId = headers['twitch-eventsub-message-id'] + '';
+    const messageId = `${headers['twitch-eventsub-message-id']}`;
 
     const cnt = await redis.exists(messageId);
     if (cnt) return;
@@ -329,10 +331,9 @@ router.use(async (req: Request, res: Response) => {
         { EX: 86_400 }
     );
 
-    // const timestamp = headers['twitch-eventsub-message-timestamp'] + '';
-    // const messageAge = Date.now() - new Date(timestamp).getTime();
-    // if (messageAge > 600000) return; // 오래된 메세지
     if (!cb) return;
+
+    // TODO: 오래된 메세지 제거 부분
 
     const event: Event = body.event;
     const subscription: Subscription = body.subscription;
@@ -349,12 +350,6 @@ router.use(async (req: Request, res: Response) => {
             console.log(
                 `Received request with unhandled message type ${headers['twitch-eventsub-message-type']}`
             );
-
-            // cb(
-            //     headers['twitch-eventsub-message-type'] + '',
-            //     event,
-            //     subscription
-            // );
             break;
     }
 });
