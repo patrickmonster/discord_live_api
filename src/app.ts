@@ -82,7 +82,7 @@ app.use(api);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 const target_dirs = [
-    `${process.env.PWD}/src/router/*.ts`,
+    `${process.env.PWD}/src/router/index.ts`,
     `${process.env.PWD}/src/type/*.ts`,
 ];
 

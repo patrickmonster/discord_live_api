@@ -12,38 +12,6 @@
     }
   ],
   "paths": {
-    "/interaction/": {
-      "post": {
-        "tags": [
-          "interaction"
-        ],
-        "summary": "Discord app",
-        "description": "앱 동작 코드 입니다.",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "Pong"
-          }
-        },
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "type": {
-                    "example": "any"
-                  },
-                  "data": {
-                    "example": "any"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/v1/token/": {
       "get": {
         "tags": [

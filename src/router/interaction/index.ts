@@ -1,8 +1,11 @@
 'use strict';
 import express, { Router, Request, Response } from 'express';
-import { InteractionType, InteractionResponseType } from 'discord-interactions';
+import {
+    InteractionType,
+    InteractionResponseType,
+    verifyKey,
+} from 'discord-interactions';
 
-import { verifyKey } from 'discord-interactions';
 import { env } from 'process';
 
 const router: Router = Router();
@@ -42,18 +45,21 @@ router.post(`/`, async (req, res) => {
             description: 'Pong',
         }
      */
+
     const { type, data } = req.body;
 
-    if (type === InteractionType.PING)
-        return res.send({ type: InteractionResponseType.PONG });
-
-    if (type === InteractionType.APPLICATION_COMMAND) {
-        if ((data.name = 'test')) {
-            return res.send({
-                type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-                data: { content: 'TEST message' },
-            });
-        }
+    switch (type) {
+        case InteractionType.PING:
+            res.send({ type: InteractionResponseType.PONG });
+            break;
+        case InteractionType.APPLICATION_COMMAND:
+            break;
+        case InteractionType.APPLICATION_COMMAND_AUTOCOMPLETE:
+            break;
+        case InteractionType.MESSAGE_COMPONENT:
+            break;
+        case InteractionType.MODAL_SUBMIT:
+            break;
     }
 });
 

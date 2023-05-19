@@ -27,7 +27,13 @@ router.use(
 /**
  * 명령 처리 라우터
  */
-router.use(`/interaction`, interaction);
+router.use(
+    `/interaction`,
+    interaction
+    /* 
+    #swagger.ignore = true
+    */
+);
 
 /**
  * API 매인 라우팅 지정

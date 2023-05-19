@@ -15,7 +15,6 @@ class TwitchOAuth2 extends OAuth2 {
             `https://id.twitch.tv/oauth2/token`,
             undefined
         );
-
         this._scope = scope;
     }
 
